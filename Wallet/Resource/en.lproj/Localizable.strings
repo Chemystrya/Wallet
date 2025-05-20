@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  Wallet
+
+  Created by Fedorova Maria on 20.05.2025.
+  
+*/
+
+// MARK: - Error
+"Error.error" = "Ошибка";
+"Error.incorrectLoginOrPassword" = "Введены неправильный логин или пароль";
+"Error.repeat" = "Повторить";
+"Error.cancel" = "Отменить";
+
+// MARK: - Login
+"Login.username" = "Username";
+"Login.password" = "Password";
+"Login.login" = "Login";
+
