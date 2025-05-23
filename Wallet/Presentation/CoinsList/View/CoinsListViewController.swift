@@ -27,6 +27,7 @@ final class CoinsListViewController: UIViewController, UITableViewDataSource, UI
         setupTableView()
         setupActivityIndicator()
         loadCoinsFromServer()
+        setupHeaderActions()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +65,18 @@ final class CoinsListViewController: UIViewController, UITableViewDataSource, UI
     }
 
     //    MARK: - Private
+
+    private func setupHeaderActions() {
+        headerView.setupActions(
+            updateAction: { [weak self] in
+                self?.loadCoinsFromServer()
+            },
+            logoutAction: { [weak self] in
+                self?.viewModel.logout()
+            }
+        )
+    }
+
     private func setupActivityIndicator() {
         activityIndicator.color = .gray
         activityIndicator.layer.zPosition = 1

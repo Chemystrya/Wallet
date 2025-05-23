@@ -14,6 +14,7 @@ protocol CoinsListViewModel {
     func fetchCoins(completionHandler: @escaping () -> Void)
     func setSortType(_ sortType: SortType)
     func openCoinDetailScreen(index: Int)
+    func logout()
 }
 
 final class CoinsListViewModelImpl: CoinsListViewModel {
@@ -38,6 +39,10 @@ final class CoinsListViewModelImpl: CoinsListViewModel {
     func openCoinDetailScreen(index: Int) {
         let coin = coins[index]
         router.openCoinDetailScreen(coin: coin)
+    }
+
+    func logout() {
+        router.logout()
     }
 
     func setSortType(_ sortType: SortType) {

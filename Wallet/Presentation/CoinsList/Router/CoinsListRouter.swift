@@ -9,11 +9,10 @@ import UIKit
 
 protocol CoinsListRouter {
     func openCoinDetailScreen(coin: Coin)
+    func logout()
 }
 
-final class CoinsListRouterImpl: CoinsListRouter {
-    weak var transitionHandler: TransitionHandler?
-
+final class CoinsListRouterImpl: BaseRouter, CoinsListRouter {
     func openCoinDetailScreen(coin: Coin) {
         let viewController = UIViewController()
         transitionHandler?.push(viewController: viewController, animated: true)

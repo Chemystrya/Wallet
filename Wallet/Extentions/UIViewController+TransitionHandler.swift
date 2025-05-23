@@ -39,4 +39,13 @@ extension UIViewController: TransitionHandler {
             navigationController.dismiss(animated: animated, completion: completion)
         }
     }
+
+    func replaceNavigationStack(
+        with viewControllers: [UIViewController],
+        animated: Bool,
+        hidesTabBarWhenPushed: Bool
+    ) {
+        viewControllers.forEach { $0.hidesBottomBarWhenPushed = hidesTabBarWhenPushed }
+        navigationController?.setViewControllers(viewControllers, animated: animated)
+    }
 }

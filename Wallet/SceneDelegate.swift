@@ -14,8 +14,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        let loginViewController = LoginAssembly.assemble()
-        let navigationController = UINavigationController(rootViewController: loginViewController)
+        let loginService: LoginService = LoginServiceImpl()
+        let viewController = if loginService.isUserLoggedIn() {
+            CoinsListAssembly.assemble()
+        } else {
+            LoginAssembly.assemble()
+        }
+
+        let navigationController = UINavigationController(rootViewController: viewController)
 
         window.rootViewController = navigationController
         window.makeKeyAndVisible()

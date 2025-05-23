@@ -31,5 +31,6 @@ final class LoginServiceImpl: LoginService {
 
     func setLoggedIn(_ loggedIn: Bool) {
         UserDefaults.standard.set(loggedIn, forKey: "isUserLoggedIn")
+        UserDefaults.standard.synchronize()
     }
 }

@@ -37,28 +37,6 @@ final class CustomTableHeaderView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-    @objc private func dismissDropdown() {
-        guard let dropdownMenu = dropdown, let dimView = blurBackgroundView else { return }
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            dimView.alpha = 0
-            dropdownMenu.alpha = 0
-        }, completion: { _ in
-            dropdownMenu.removeFromSuperview()
-            dimView.removeFromSuperview()
-            self.dropdown = nil
-            self.blurBackgroundView = nil
-        })
-    }
-    
-    private func refreshTable() {
-        print("Выполняется обновление таблицы...")
-    }
-    
-    private func logoutUser() {
-        print("Выход пользователя.")
-    }
     
     private let backgroundView: UIView = {
         let view = UIView()
@@ -106,7 +84,10 @@ final class CustomTableHeaderView: UIView {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
-    
+
+    private var onUpdateTapAction: (() -> Void)?
+    private var onLogoutTapAction: (() -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -169,6 +150,30 @@ final class CustomTableHeaderView: UIView {
         )
     }
 
+    @objc private func dismissDropdown() {
+        guard let dropdownMenu = dropdown, let dimView = blurBackgroundView else { return }
+
+        UIView.animate(withDuration: 0.3, animations: {
+            dimView.alpha = 0
+            dropdownMenu.alpha = 0
+        }, completion: { _ in
+            dropdownMenu.removeFromSuperview()
+            dimView.removeFromSuperview()
+            self.dropdown = nil
+            self.blurBackgroundView = nil
+        })
+    }
+
+    private func refreshTable() {
+        onUpdateTapAction?()
+        print("Выполняется обновление таблицы...")
+    }
+
+    private func logoutUser() {
+        onLogoutTapAction?()
+        print("Выход пользователя.")
+    }
+
     private func showCustomDropdown() {
         guard dropdown == nil else { return }
 
@@ -223,5 +228,10 @@ final class CustomTableHeaderView: UIView {
         UIView.animate(withDuration: 0.3) {
             dropdownMenu.alpha = 1
         }
+    }
+
+    func setupActions(updateAction: (() -> Void)?, logoutAction: (() -> Void)?) {
+        onUpdateTapAction = updateAction
+        onLogoutTapAction = logoutAction
     }
 }
