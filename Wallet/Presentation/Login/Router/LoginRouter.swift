@@ -8,14 +8,14 @@
 import UIKit
 
 protocol LoginRouter {
-    func openHomeScreen()
+    func openCoinsListScreen()
 }
 
 final class LoginRouterImpl: LoginRouter {
     weak var transitionHandler: TransitionHandler?
 
-    func openHomeScreen() {
-        let viewController = UIViewController()
+    func openCoinsListScreen() {
+        let viewController = CoinsListAssembly.assemble()
         transitionHandler?.replaceTopviewController(with: viewController, animated: true)
     }
 }

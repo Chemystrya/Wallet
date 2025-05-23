@@ -1,5 +1,5 @@
 //
-//  LoginModel.swift
+//  LoginService.swift
 //  Wallet
 //
 //  Created by Fedorova Maria on 20.05.2025.

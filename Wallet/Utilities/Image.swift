@@ -12,6 +12,22 @@ enum Image: String {
     case passwordIcon
     case usernameIcon
 
+    case coinsListStack
+    case sortButtonIcon
+    case garbageIcon
+    case rocketIcon
+    case arrowUpIcon
+    case arrowDownIcon
+    case ellipsisIcon
+
+    case arrowLeftIcon
+
+    case homeIcon
+    case ratingIcon
+    case walletIcon
+    case sheetIcon
+    case profileIcon
+
     var image: UIImage? {
         UIImage(named: rawValue)
     }

@@ -32,5 +32,9 @@ extension UIColor {
 extension UIColor {
     static let athensGray = UIColor(hex: "0xF7F7FA")
     static let mirage = UIColor(hex: "0x191C32")
-
+    static let pinkSalmon = UIColor(hex: "0xFF9AB2")
+    static let ebonyClay = UIColor(hex: "0x26273C")
+    static let blackHaze = UIColor(hex: "0xFAFBFB")
+    static let manatee = UIColor(hex: "0x9395A4")
+    static let porcelain = UIColor(hex: "0xEBEFF1")
 }

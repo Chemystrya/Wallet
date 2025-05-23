@@ -21,4 +21,22 @@ extension UIViewController: TransitionHandler {
     func push(viewController: UIViewController, animated: Bool) {
         navigationController?.pushViewController(viewController, animated: animated)
     }
+
+    func back(animated: Bool, completion: (() -> Void)?) {
+        guard let navigationController = navigationController else {
+            dismiss(animated: animated, completion: completion)
+            return
+        }
+
+        if navigationController.viewControllers.count > 1 {
+            navigationController.popViewController(animated: animated)
+            if let coordinator = navigationController.transitionCoordinator, animated {
+                coordinator.animate(alongsideTransition: nil) { _ in completion?() }
+            } else {
+                completion?()
+            }
+        } else {
+            navigationController.dismiss(animated: animated, completion: completion)
+        }
+    }
 }

@@ -53,7 +53,7 @@ final class LoginViewModel: LoginViewModelProtocol {
     }
 
     func openHomeScreen() {
-        router.openHomeScreen()
+        router.openCoinsListScreen()
     }
 }
 
