@@ -13,6 +13,7 @@ enum Image: String {
     case usernameIcon
 
     case coinsListStack
+    case shadowForCoinsListStack
     case sortButtonIcon
     case garbageIcon
     case rocketIcon

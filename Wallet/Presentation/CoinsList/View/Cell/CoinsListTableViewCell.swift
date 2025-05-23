@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CryptoTableViewCell: UITableViewCell {
+final class CoinsListTableViewCell: UITableViewCell {
     static let reuseIdentifier = "cell"
 
     let iconImageView: UIImageView = {
@@ -20,7 +20,7 @@ class CryptoTableViewCell: UITableViewCell {
 
     let coinNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont(name: Font.medium.name, size: 18)
         label.textColor = .ebonyClay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +28,7 @@ class CryptoTableViewCell: UITableViewCell {
 
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.font = UIFont(name: Font.medium.name, size: 18)
         label.textColor = .ebonyClay
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +37,7 @@ class CryptoTableViewCell: UITableViewCell {
 
     let coinSymbolLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = UIFont(name: Font.medium.name, size: 14)
         label.textColor = .manatee
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -45,7 +45,7 @@ class CryptoTableViewCell: UITableViewCell {
 
     let changesPerDayLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.font = UIFont(name: Font.medium.name, size: 14)
         label.textColor = .manatee
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false

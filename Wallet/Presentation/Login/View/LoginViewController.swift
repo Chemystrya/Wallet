@@ -44,7 +44,7 @@ final class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle(Localizable.Login.login, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        button.titleLabel?.font = UIFont(name: Font.semiBold.name, size: 15)
         button.tintColor = .white
         button.backgroundColor = .mirage
         button.clipsToBounds = true

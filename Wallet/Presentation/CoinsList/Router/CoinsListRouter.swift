@@ -14,7 +14,7 @@ protocol CoinsListRouter {
 
 final class CoinsListRouterImpl: BaseRouter, CoinsListRouter {
     func openCoinDetailScreen(coin: Coin) {
-        let viewController = UIViewController()
+        let viewController = CoinDetailsAssembly.assemble(coin: coin)
         transitionHandler?.push(viewController: viewController, animated: true)
     }
 }

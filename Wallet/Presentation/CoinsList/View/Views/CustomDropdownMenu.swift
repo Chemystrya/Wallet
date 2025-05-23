@@ -32,7 +32,7 @@ final class MenuItemView: UIView {
     private let label: UILabel = {
         let label = UILabel()
         label.textColor = .mirage
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont(name: Font.medium.name, size: 18)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

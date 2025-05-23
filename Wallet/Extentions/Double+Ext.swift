@@ -8,8 +8,8 @@
 import Foundation
 
 enum NumberFormatStyle {
-    case percentWithDecimal   // Например: 12.34%
-    case currencyWithSymbols  // Например: $12,345.67
+    case percentWithDecimal   // Например: 1,234.56%
+    case currencyWithSymbols  // Например: $1,234.56
 }
 
 func formatNumber(_ value: Double, style: NumberFormatStyle) -> String? {
@@ -21,7 +21,10 @@ func formatNumber(_ value: Double, style: NumberFormatStyle) -> String? {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.minimumFractionDigits = 2
         formatter.maximumFractionDigits = 2
-        formatter.usesGroupingSeparator = false
+        formatter.usesGroupingSeparator = true
+        formatter.groupingSeparator = ","    
+        formatter.decimalSeparator = "."
+
         return "\(formatter.string(from: NSNumber(value: value)) ?? "")%"
 
     case .currencyWithSymbols:

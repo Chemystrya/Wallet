@@ -37,4 +37,5 @@ extension UIColor {
     static let blackHaze = UIColor(hex: "0xFAFBFB")
     static let manatee = UIColor(hex: "0x9395A4")
     static let porcelain = UIColor(hex: "0xEBEFF1")
+    static let mischka = UIColor(hex: "0xCED0DE")
 }

@@ -44,8 +44,8 @@ struct CoinDataResponse: Decodable {
         }
 
         struct DeveloperActivity: Decodable {
-            let stars: Double?
-            let watchers: Double?
+            let stars: Int?
+            let watchers: Int?
         }
     }
 }

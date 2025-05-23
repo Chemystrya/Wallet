@@ -41,7 +41,7 @@
 "CoinDetails.changeBtcLastOneWeek" = "Change BTC last week:";
 "CoinDetails.changeLastOneYear" = "Change last year:";
 "CoinDetails.changeBtcLastOneYear" = "Change BTC last year:";
-"CoinDetails.price" = "Price 💵:";
+"CoinDetails.price" = "Price:";
 "CoinDetails.percentDown" = "Percent down:";
-"CoinDetails.stars" = "Stars ⭐️:";
+"CoinDetails.stars" = "Stars:";
 "CoinDetails.watchers" = "Watchers:";

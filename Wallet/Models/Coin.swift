@@ -19,6 +19,6 @@ struct Coin {
     let percentChangeBtcLast1Year: Double
     let price: Double
     let percentDown: Double
-    let stars: Double
-    let watchers: Double
+    let stars: Int
+    let watchers: Int
 }

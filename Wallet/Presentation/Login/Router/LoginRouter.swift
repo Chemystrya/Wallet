@@ -15,7 +15,7 @@ final class LoginRouterImpl: LoginRouter {
     weak var transitionHandler: TransitionHandler?
 
     func openCoinsListScreen() {
-        let viewController = CoinsListAssembly.assemble()
+        let viewController = TabBarViewController()
         transitionHandler?.replaceTopviewController(with: viewController, animated: true)
     }
 }

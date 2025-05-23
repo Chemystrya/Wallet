@@ -13,7 +13,7 @@ final class CustomTableHeaderView: UIView {
     // MARK: - UIElements
     private let homeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
+        label.font = UIFont(name: Font.semiBold.name, size: 32)
         label.text = Localizable.CoinsList.home
         label.numberOfLines = 0
         label.textColor = .white
@@ -47,7 +47,7 @@ final class CustomTableHeaderView: UIView {
     
     private let affiliateProgramLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont(name: Font.medium.name, size: 20)
         label.text = Localizable.CoinsList.affiliateProgram
         label.numberOfLines = 0
         label.textColor = .white
@@ -60,7 +60,7 @@ final class CustomTableHeaderView: UIView {
         button.setTitle(Localizable.CoinsList.learnMore, for: .normal)
         button.setTitleColor(.ebonyClay, for: .normal)
         button.layer.cornerRadius = 18
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        button.titleLabel?.font = UIFont(name: Font.semiBold.name, size: 14)
         button.backgroundColor = .blackHaze
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -77,7 +77,7 @@ final class CustomTableHeaderView: UIView {
     
     private let shadowImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "shadowForCoinsListStack")
+        image.image = Image.shadowForCoinsListStack.image
         image.clipsToBounds = false
         image.layer.zPosition = -1
         image.contentMode = .scaleAspectFill
@@ -166,12 +166,10 @@ final class CustomTableHeaderView: UIView {
 
     private func refreshTable() {
         onUpdateTapAction?()
-        print("Выполняется обновление таблицы...")
     }
 
     private func logoutUser() {
         onLogoutTapAction?()
-        print("Выход пользователя.")
     }
 
     private func showCustomDropdown() {
@@ -194,12 +192,11 @@ final class CustomTableHeaderView: UIView {
 
         let dropdownMenu = CustomDropdownMenu()
         dropdownMenu.onItemSelected = { [weak self] selectedItem in
-            print("Выбрано: $selectedItem)")
 
             switch selectedItem {
-            case "Обновить":
+            case Localizable.CoinsList.update:
                 self?.refreshTable()
-            case "Выйти":
+            case Localizable.CoinsList.goOut:
                 self?.logoutUser()
             default:
                 break
@@ -210,8 +207,8 @@ final class CustomTableHeaderView: UIView {
 
         dropdownMenu.alpha = 0
         dropdownMenu.setupButtons(items: [
-            ("rocketIcon", Localizable.CoinsList.update),
-            ("garbageIcon", Localizable.CoinsList.goOut)
+            (Image.rocketIcon.rawValue, Localizable.CoinsList.update),
+            (Image.garbageIcon.rawValue, Localizable.CoinsList.goOut)
         ])
         dropdownMenu.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.addSubview(dropdownMenu)

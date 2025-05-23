@@ -47,7 +47,7 @@ final class CoinsListViewController: UIViewController, UITableViewDataSource, UI
         tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         tableView.clipsToBounds = true
         tableView.layer.zPosition = 1
-        tableView.register(CryptoTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(CoinsListTableViewCell.self, forCellReuseIdentifier: "cell")
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
         headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -127,9 +127,9 @@ extension CoinsListViewController {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: CryptoTableViewCell.reuseIdentifier,
+            withIdentifier: CoinsListTableViewCell.reuseIdentifier,
             for: indexPath
-        ) as? CryptoTableViewCell else {
+        ) as? CoinsListTableViewCell else {
             return UITableViewCell()
         }
         let coin = viewModel.coins[indexPath.row]
@@ -151,7 +151,7 @@ extension CoinsListViewController: UITableViewDelegate {
         let label = UILabel()
         label.backgroundColor = .clear
         label.text = Localizable.CoinsList.trending
-        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.font = UIFont(name: Font.medium.name, size: 20)
         label.textColor = .mirage
         label.translatesAutoresizingMaskIntoConstraints = false
 

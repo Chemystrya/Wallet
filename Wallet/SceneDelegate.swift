@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let loginService: LoginService = LoginServiceImpl()
         let viewController = if loginService.isUserLoggedIn() {
-            CoinsListAssembly.assemble()
+            TabBarViewController()
         } else {
             LoginAssembly.assemble()
         }
