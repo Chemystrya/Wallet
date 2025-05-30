@@ -9,6 +9,20 @@ import UIKit
 
 final class LoginViewController: UIViewController {
     // MARK: - UIElements
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .clear
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .athensGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let loginImage: UIImageView = {
         let image = UIImageView()
         image.image = Image.loginRobot.image
@@ -20,11 +34,13 @@ final class LoginViewController: UIViewController {
 
     private lazy var usernameTextField = makeTextField(
         placeholder: Localizable.Login.username,
-        image: Image.usernameIcon.image
+        image: Image.usernameIcon.image,
+        isSecureTextEntry: false
     )
     private lazy var passwordTextField = makeTextField(
         placeholder: Localizable.Login.password,
-        image: Image.passwordIcon.image
+        image: Image.passwordIcon.image,
+        isSecureTextEntry: true
     )
 
     private let usernameView: UIView = {
@@ -71,6 +87,10 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
+        registerForKeyboardNotifications()
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        scrollView.addGestureRecognizer(tap)
 
         usernameTextField.addAction(
             UIAction { [weak self] _ in
@@ -87,6 +107,11 @@ final class LoginViewController: UIViewController {
         )
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -95,32 +120,50 @@ final class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = loginButton.frame.height / 2
     }
 
-    // MARK: - Setup
+    deinit {
+        removeKeyBoardNotifications()
+    }
+
+    // MARK: - Private
     private func setupUI() {
         view.backgroundColor = .athensGray
 
-        view.addSubview(loginImage)
-        view.addSubview(usernameView)
-        view.addSubview(passwordView)
-        view.addSubview(loginButton)
+        view.addSubview(scrollView)
+        scrollView.addSubview(containerView)
+        containerView.addSubview(loginImage)
+        containerView.addSubview(usernameView)
+        containerView.addSubview(passwordView)
+        containerView.addSubview(loginButton)
 
         usernameView.addSubview(usernameTextField)
         passwordView.addSubview(passwordTextField)
 
         NSLayoutConstraint.activate([
-            loginImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            loginImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 44),
-            loginImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -44),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+
+            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            containerView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+
+            loginImage.topAnchor.constraint(equalTo: containerView.topAnchor),
+            loginImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 44),
+            loginImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -44),
             loginImage.heightAnchor.constraint(equalToConstant: 287),
 
-            usernameView.topAnchor.constraint(greaterThanOrEqualTo: loginImage.bottomAnchor, constant: 16),
-            usernameView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            usernameView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            usernameView.topAnchor.constraint(greaterThanOrEqualTo: loginImage.bottomAnchor, constant: 24),
+            usernameView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+            usernameView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
             usernameView.heightAnchor.constraint(equalToConstant: 55),
 
             passwordView.topAnchor.constraint(equalTo: usernameView.bottomAnchor, constant: 15),
-            passwordView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            passwordView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            passwordView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+            passwordView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
             passwordView.heightAnchor.constraint(equalToConstant: 55),
 
             usernameTextField.leadingAnchor.constraint(equalTo: usernameView.leadingAnchor, constant: 10),
@@ -134,14 +177,14 @@ final class LoginViewController: UIViewController {
             passwordTextField.trailingAnchor.constraint(equalTo: passwordView.trailingAnchor),
 
             loginButton.topAnchor.constraint(equalTo: passwordView.bottomAnchor, constant: 25),
-            loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            loginButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 25),
+            loginButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -25),
+            loginButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -133),
             loginButton.heightAnchor.constraint(equalToConstant: 55),
-            loginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -133)
-
         ])
 
         updateLoginButtonState()
+        view.layoutIfNeeded()
     }
 
     private func bindViewModel() {
@@ -155,6 +198,47 @@ final class LoginViewController: UIViewController {
         loginButton.isUserInteractionEnabled = viewModel.isFormValid
     }
 
+    // MARK: - Keyboard Notifications
+    private func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+        else {
+            return
+        }
+
+        let keyboardHeight = keyboardFrame.height
+        scrollView.setContentOffset(CGPoint(x: 0, y: keyboardHeight / 2), animated: true)
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+
+    private func removeKeyBoardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
     // MARK: - TextField Actions
     private func loginTapped() {
         viewModel.login { [weak self] success in
@@ -166,13 +250,15 @@ final class LoginViewController: UIViewController {
         }
     }
 
-    // MARK: - makeTextField 
-    private func makeTextField(placeholder: String, image: UIImage?) -> UITextField {
+    // MARK: - makeTextField
+    private func makeTextField(placeholder: String, image: UIImage?, isSecureTextEntry: Bool) -> UITextField {
         let textField = UITextField()
         textField.placeholder = placeholder
-        textField.borderStyle = .none
+        textField.keyboardType = .asciiCapable
+        textField.isSecureTextEntry = isSecureTextEntry
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.delegate = self
 
         let leftContainer = UIView(frame: CGRect(x: 0, y: 0, width: 52, height: 32))
         let imageView = UIImageView(image: image)
@@ -186,7 +272,7 @@ final class LoginViewController: UIViewController {
         return textField
     }
 
-    // MARK: - Actions
+    // MARK: - Alert Actions
     private func showInvalidLoginAlert() {
         let alert = UIAlertController(
             title: Localizable.Error.error,
@@ -205,5 +291,14 @@ final class LoginViewController: UIViewController {
         alert.addAction(cancelAction)
 
         present(alert, animated: true)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+
+        return true
     }
 }
