@@ -12,7 +12,7 @@ protocol CoinDetailsViewModel {
     func logout()
 }
 
-final class CoinDetailsViewModelImpl: CoinDetailsViewModel {
+final class CoinDetailsViewModelImpl {
     private(set) var coinDetails: Coin
     private let router: CoinDetailsRouter
 
@@ -20,11 +20,13 @@ final class CoinDetailsViewModelImpl: CoinDetailsViewModel {
         self.coinDetails = coinDetails
         self.router = router
     }
+}
 
+extension CoinDetailsViewModelImpl: CoinDetailsViewModel {
     func back() {
         router.back()
     }
-
+    
     func logout() {
         router.logout()
     }

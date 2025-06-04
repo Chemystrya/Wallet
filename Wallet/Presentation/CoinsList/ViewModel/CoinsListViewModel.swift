@@ -30,8 +30,8 @@ final class CoinsListViewModelImpl: CoinsListViewModel {
     }
 
     func fetchCoins(completionHandler: @escaping () -> Void) {
-        service.fetchCoins { coins in
-            self.coins = coins
+        service.fetchCoins { [weak self] coins in
+            self?.coins = coins
             completionHandler()
         }
     }

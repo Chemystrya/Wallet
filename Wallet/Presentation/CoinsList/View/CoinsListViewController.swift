@@ -105,14 +105,14 @@ final class CoinsListViewController: UIViewController, UITableViewDataSource, UI
     }
 
     private func makeSortMenu() -> UIMenu {
-        let sortAscending = UIAction(title: SortType.priceAsc.title) { _ in
-            self.viewModel.setSortType(.priceAsc)
-            self.tableView.reloadData()
+        let sortAscending = UIAction(title: SortType.priceAsc.title) { [weak self] _ in
+            self?.viewModel.setSortType(.priceAsc)
+            self?.tableView.reloadData()
         }
 
-        let sortDescending = UIAction(title: SortType.priceDesc.title) { _ in
-            self.viewModel.setSortType(.priceDesc)
-            self.tableView.reloadData()
+        let sortDescending = UIAction(title: SortType.priceDesc.title) { [weak self] _ in
+            self?.viewModel.setSortType(.priceDesc)
+            self?.tableView.reloadData()
         }
         let menu = UIMenu(title: Localizable.CoinsList.sortingPrinciple, children: [sortAscending, sortDescending])
 

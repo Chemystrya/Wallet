@@ -14,13 +14,7 @@ final class CoinDetailsViewController: UIViewController {
     private var currentNumbersLabels: [UILabel] = []
 
     // MARK: - UIElements
-    private let coinNameAndSymbolLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: Font.medium.name, size: 14)
-        label.textColor = .mirage
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let navigationView = NavigationView()
 
     private let priceLabel: UILabel = {
         let label = UILabel()
@@ -96,40 +90,6 @@ final class CoinDetailsViewController: UIViewController {
         return stack
     }()
 
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        let image: UIImage? = Image.arrowLeftIcon.image?.resized(to: CGSize(width: 24, height: 24))
-        button.setImage(image, for: .normal)
-        button.tintColor = .mirage
-        button.backgroundColor = .white
-        button.alpha = 0.8
-        button.layer.cornerRadius = 24
-        button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        button.addAction(UIAction { [weak self] _ in
-            self?.viewModel.back()
-        }, for: .touchUpInside)
-
-        return button
-    }()
-
-    private lazy var logoutButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "rectangle.portrait.and.arrow.right.fill"), for: .normal)
-        button.tintColor = .mirage
-        button.backgroundColor = .white
-        button.alpha = 0.8
-        button.layer.cornerRadius = 24
-        button.clipsToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addAction(UIAction { [weak self] _ in
-            self?.viewModel.logout()
-        }, for: .touchUpInside)
-
-        return button
-    }()
-
     init(viewModel: CoinDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -159,6 +119,8 @@ final class CoinDetailsViewController: UIViewController {
     // MARK: - SetupUI
     private func setupUI() {
         view.backgroundColor = .athensGray
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         let changePerDayAndArrowStack = UIStackView(arrangedSubviews: [arrowImageView, changesPerDayLabel])
         changePerDayAndArrowStack.axis = .horizontal
@@ -177,35 +139,25 @@ final class CoinDetailsViewController: UIViewController {
         bottomStack.spacing = 40
         bottomStack.translatesAutoresizingMaskIntoConstraints = false
 
-        view.addSubview(coinNameAndSymbolLabel)
+        view.addSubview(navigationView)
         view.addSubview(topStack)
         view.addSubview(segmentedControl)
         view.addSubview(infoContainerView)
         infoContainerView.addSubview(marketStatisticLabel)
         infoContainerView.addSubview(bottomStack)
-        view.addSubview(backButton)
-        view.addSubview(logoutButton)
 
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        navigationView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            coinNameAndSymbolLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
-            coinNameAndSymbolLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            backButton.widthAnchor.constraint(equalToConstant: 48),
-            backButton.heightAnchor.constraint(equalToConstant: 48),
-
-            logoutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 58),
-            logoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            logoutButton.widthAnchor.constraint(equalToConstant: 48),
-            logoutButton.heightAnchor.constraint(equalToConstant: 48),
+            navigationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            navigationView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navigationView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
 
             arrowImageView.heightAnchor.constraint(equalToConstant: 12),
             arrowImageView.widthAnchor.constraint(equalToConstant: 12),
 
-            topStack.topAnchor.constraint(equalTo: coinNameAndSymbolLabel.bottomAnchor, constant: 20),
+            topStack.topAnchor.constraint(equalTo: navigationView.bottomAnchor,constant: 5),
             topStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             segmentedControl.topAnchor.constraint(equalTo: topStack.bottomAnchor, constant: 20),
@@ -231,7 +183,18 @@ final class CoinDetailsViewController: UIViewController {
 
     // MARK: - Configure
     private func configure() {
-        coinNameAndSymbolLabel.text = "\(viewModel.coinDetails.name) (\(viewModel.coinDetails.symbol.uppercased()))"
+        navigationView.configure(
+            viewModel: NavigationViewModel(
+                title: "\(viewModel.coinDetails.name) (\(viewModel.coinDetails.symbol.uppercased()))",
+                backgroundColor: .clear,
+                leftButtonAction: { [weak self] in
+                    self?.viewModel.back()
+                },
+                rightButtonAction: { [weak self] in
+                    self?.viewModel.logout()
+                }
+            )
+        )
         priceLabel.text = formatNumber(viewModel.coinDetails.priceUsd, style: .currencyWithSymbols)
 
         let percentChange = viewModel.coinDetails.percentChangeUsdLast24Hours
@@ -341,5 +304,16 @@ final class CoinDetailsViewController: UIViewController {
 
         currentNumbersLabels = labels
         labels.forEach { numbersStackView.addArrangedSubview($0) }
+    }
+}
+
+// MARK: - Gesture Recognizer Delegate
+extension CoinDetailsViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == navigationController?.interactivePopGestureRecognizer {
+            return true
+        }
+
+        return true
     }
 }
