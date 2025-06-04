@@ -1,0 +1,47 @@
+/* 
+  Localizable.strings
+  Wallet
+
+  Created by Fedorova Maria on 20.05.2025.
+  
+*/
+
+// MARK: - Error
+"Error.error" = "Ошибка";
+"Error.incorrectLoginOrPassword" = "Введены неправильный логин или пароль";
+"Error.repeat" = "Повторить";
+"Error.cancel" = "Отменить";
+
+// MARK: - Login
+"Login.username" = "Username";
+"Login.password" = "Password";
+"Login.login" = "Login";
+
+// MARK: - CoinsList
+"CoinsList.learnMore" = "Learn more";
+"CoinsList.affiliateProgram" = "Affiliate program";
+"CoinsList.home" = "Home";
+"CoinsList.trending" = "Trending";
+"CoinsList.byPriceAscending" = "По возрастанию цены ↑";
+"CoinsList.byPriceDescending" = "По убыванию цены ↓";
+"CoinsList.update" = "Обновить";
+"CoinsList.goOut" = "Выйти";
+"CoinsList.sortingPrinciple" = "Выберите принцип сортироки:";
+
+// MARK: - CoinDetails
+"CoinDetails.twentyFourHours" = "24H";
+"CoinDetails.oneWeek" = "1W";
+"CoinDetails.oneYear" = "1Y";
+"CoinDetails.all" = "ALL";
+"CoinDetails.point" = "Point";
+"CoinDetails.marketStatistic" = "Market Statistic";
+"CoinDetails.marketCapitalization" = "Market capitalization:";
+"CoinDetails.circulatingSuply" = "Circulating Suply:";
+"CoinDetails.changelastOneWeek" = "Change last week:";
+"CoinDetails.changeBtcLastOneWeek" = "Change BTC last week:";
+"CoinDetails.changeLastOneYear" = "Change last year:";
+"CoinDetails.changeBtcLastOneYear" = "Change BTC last year:";
+"CoinDetails.price" = "Price:";
+"CoinDetails.percentDown" = "Percent down:";
+"CoinDetails.stars" = "Stars:";
+"CoinDetails.watchers" = "Watchers:";
